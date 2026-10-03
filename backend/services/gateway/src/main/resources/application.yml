@@ -1,0 +1,68 @@
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+
+spring:
+  application:
+    name: gateway
+  codec:
+    max-in-memory-size: 1MB
+  cloud:
+    gateway:
+      server:
+        webflux:
+          httpclient:
+            connect-timeout: 5000
+            response-timeout: 360s     # model calls on a local CPU can be slow
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8081}
+                allowed-methods: [GET, POST, PATCH, PUT, DELETE, OPTIONS]
+                allowed-headers: ['*']
+                exposed-headers: [Content-Disposition]
+                allow-credentials: true
+                max-age: 3600
+          default-filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+          # Only /api/** is routed. Service-internal endpoints (/internal/**) are never reachable from outside.
+          routes:
+            - id: auth
+              uri: ${AUTH_SERVICE_URL:http://localhost:8101}
+              predicates:
+                - Path=/api/auth/**,/api/users/**,/api/tenants/**
+            - id: documents
+              uri: ${DOCUMENT_SERVICE_URL:http://localhost:8102}
+              predicates:
+                - Path=/api/documents/**
+            - id: analyses
+              uri: ${ANALYSIS_SERVICE_URL:http://localhost:8103}
+              predicates:
+                - Path=/api/analyses/**
+            - id: curricula
+              uri: ${CURRICULUM_SERVICE_URL:http://localhost:8104}
+              predicates:
+                - Path=/api/curricula/**
+            - id: assessments
+              uri: ${ASSESSMENT_SERVICE_URL:http://localhost:8105}
+              predicates:
+                - Path=/api/assessments/**
+            - id: learning
+              uri: ${LEARNING_SERVICE_URL:http://localhost:8106}
+              predicates:
+                - Path=/api/learning/**
+            - id: analytics
+              uri: ${ANALYTICS_SERVICE_URL:http://localhost:8107}
+              predicates:
+                - Path=/api/analytics/**,/api/audit-logs/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+learnmind:
+  gateway:
+    requests-per-minute: ${RATE_LIMIT_PER_MINUTE:300}
+    auth-requests-per-minute: ${AUTH_RATE_LIMIT_PER_MINUTE:30}

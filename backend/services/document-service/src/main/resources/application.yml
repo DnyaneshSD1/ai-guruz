@@ -1,0 +1,21 @@
+server:
+  port: ${PORT:8102}
+
+spring:
+  application:
+    name: document-service
+  config:
+    import: classpath:learnmind-common.yml
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/learnmind_documents}
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 26MB
+
+learnmind:
+  documents:
+    storage: ${STORAGE_MODE:local}                  # local | s3
+    local-dir: ${STORAGE_LOCAL_DIR:./.local/storage}
+    s3-bucket: ${STORAGE_S3_BUCKET:}
+    extraction: ${EXTRACTION_MODE:inline}           # inline (in this service) | lambda (S3-triggered Python Lambda calls back)

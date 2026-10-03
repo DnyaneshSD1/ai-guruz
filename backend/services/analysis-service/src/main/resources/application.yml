@@ -1,0 +1,10 @@
+server:
+  port: ${PORT:8103}
+
+spring:
+  application:
+    name: analysis-service
+  config:
+    import: classpath:learnmind-common.yml
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/learnmind_analysis}

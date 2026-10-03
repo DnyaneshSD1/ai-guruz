@@ -1,0 +1,25 @@
+server:
+  port: ${PORT:8101}
+
+spring:
+  application:
+    name: auth-service
+  config:
+    import: classpath:learnmind-common.yml
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/learnmind_auth}
+
+learnmind:
+  security:
+    public-paths:
+      - /api/auth/register
+      - /api/auth/login
+      - /api/auth/refresh
+      - /api/auth/logout
+      - /.well-known/jwks.json
+  auth:
+    access-token-minutes: ${ACCESS_TOKEN_MINUTES:15}
+    refresh-token-days: ${REFRESH_TOKEN_DAYS:14}
+    cookie-secure: ${COOKIE_SECURE:false}       # true in production (HTTPS)
+    jwt-private-key: ${JWT_PRIVATE_KEY:}        # base64 PKCS#8 RSA key; when empty a key is generated and kept in MongoDB
+    seed-demo: ${SEED_DEMO:false}               # creates a demo institution with one user per role

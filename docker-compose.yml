@@ -1,0 +1,17 @@
+# Whole platform, production-like, on one machine: MongoDB + 8 backend containers + the web app.
+#   1. cp backend/.env.example backend/.env   and set INTERNAL_API_KEY
+#   2. docker compose --env-file backend/.env up --build
+#   3. open http://localhost:3000
+include:
+  - backend/docker-compose.yml
+
+services:
+  web:
+    build:
+      context: ./web
+      args:
+        NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:8080}
+    restart: unless-stopped
+    depends_on: [gateway]
+    ports:
+      - "3000:3000"

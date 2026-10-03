@@ -1,0 +1,15 @@
+server:
+  port: ${PORT:8104}
+
+spring:
+  application:
+    name: curriculum-service
+  config:
+    import: classpath:learnmind-common.yml
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/learnmind_curriculum}
+
+learnmind:
+  research:
+    enabled: ${RESEARCH_ENABLED:true}     # false = plan from the model's own knowledge only (fully offline)
+    base-url: ${RESEARCH_BASE_URL:https://en.wikipedia.org}

@@ -1,0 +1,7 @@
+# Each component also has its own .gitignore so it can be moved to a separate repository.
+.env
+.DS_Store
+Thumbs.db
+__pycache__/
+.aws-sam/
+hs_err_pid*.log

@@ -1,0 +1,15 @@
+server:
+  port: ${PORT:8106}
+
+spring:
+  application:
+    name: learning-service
+  config:
+    import: classpath:learnmind-common.yml
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/learnmind_learning}
+
+learnmind:
+  learning:
+    advance-threshold: ${ADVANCE_THRESHOLD:0.8}     # quiz score needed to move straight on
+    remedial-threshold: ${REMEDIAL_THRESHOLD:0.5}   # below this the module is re-taught
