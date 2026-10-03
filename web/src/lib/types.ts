@@ -183,6 +183,8 @@ export interface Dashboard {
   curriculumTiming: Timing;
   activity: { date: string; count: number }[];
   scoreTrend: { date: string; averageScore: number }[];
+  scoreDistribution: { label: string; count: number }[];
+  analysesByType: Record<"SUMMARY" | "MIND_MAP" | "DEEP_ANALYSIS" | "EXAM_PREP", number>;
   learners: { userId: string; name: string; assessments: number; averageScore: number | null; lastActive: string }[];
 }
 

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Columns, Donut, Rows, TrendLine } from "@/components/charts";
 import { useAuth } from "@/components/Providers";
-import { Badge, Bar, Card, ErrorNote, Loading, PageHeader, Select, Stat, Tabs, formatDateTime, percent, useLoad } from "@/components/ui";
+import { Badge, Card, ErrorNote, Loading, PageHeader, Select, Stat, Tabs, formatDateTime, percent, useLoad } from "@/components/ui";
 import { api } from "@/lib/api";
 import type { Dashboard, Timing } from "@/lib/types";
 
@@ -50,8 +51,6 @@ export default function AnalyticsPage() {
   const [days, setDays] = useState("30");
   const { data, error, loading } = useLoad(() => api<Dashboard>(`/api/analytics/dashboard?scope=${scope}&days=${days}`), [scope, days]);
 
-  const decisionTotal = data ? data.decisions.ADVANCE + data.decisions.LATERAL + data.decisions.REMEDIAL : 0;
-
   return (
     <>
       <PageHeader
@@ -89,19 +88,51 @@ export default function AnalyticsPage() {
 
           <div className="grid gap-4 lg:grid-cols-2">
             <Card>
+              <h2 className="text-sm font-medium text-muted">What the activity was</h2>
+              <p className="mb-4 mt-1 text-xs text-muted">Share of each kind of work in this period.</p>
+              <Donut
+                unit="actions"
+                slices={[
+                  { label: "Documents uploaded", value: data.totals.documents },
+                  { label: "Analyses run", value: data.totals.analyses },
+                  { label: "Learning paths created", value: data.totals.curricula },
+                  { label: "Quizzes taken", value: data.totals.assessments },
+                ]}
+              />
+            </Card>
+            <Card>
               <h2 className="text-sm font-medium text-muted">Path decisions</h2>
-              <p className="mt-1 text-xs text-muted">
-                How often the engine changed the default path. Divergence: <span className="font-medium text-fg">{percent(data.pathDivergence)}</span>
+              <p className="mb-4 mt-1 text-xs text-muted">
+                How quiz results changed the path. Divergence from the default path: <span className="font-medium text-fg">{percent(data.pathDivergence)}</span>
               </p>
-              <div className="mt-4 space-y-3">
-                {([["ADVANCE", "Advance", "success"], ["LATERAL", "Practice detour", "warn"], ["REMEDIAL", "Reinforcement", "danger"]] as const).map(([key, label, tone]) => (
-                  <div key={key} className="grid grid-cols-[120px_1fr_28px] items-center gap-3 text-sm">
-                    <span>{label}</span>
-                    <Bar value={decisionTotal ? data.decisions[key] / decisionTotal : 0} tone={tone} />
-                    <span className="text-right tabular-nums text-muted">{data.decisions[key]}</span>
-                  </div>
-                ))}
-              </div>
+              <Donut
+                unit="decisions"
+                slices={[
+                  { label: "Advance", value: data.decisions.ADVANCE },
+                  { label: "Practice detour", value: data.decisions.LATERAL },
+                  { label: "Reinforcement", value: data.decisions.REMEDIAL },
+                ]}
+              />
+            </Card>
+            <Card>
+              <h2 className="mb-4 text-sm font-medium text-muted">Quiz score over time</h2>
+              <TrendLine label="Average quiz score" points={(data.scoreTrend ?? []).map((day) => ({ date: day.date, value: day.averageScore }))} />
+            </Card>
+            <Card>
+              <h2 className="text-sm font-medium text-muted">Quiz score distribution</h2>
+              <p className="mb-4 mt-1 text-xs text-muted">Number of quizzes in each score band.</p>
+              <Columns unit="Quizzes per score band" bars={(data.scoreDistribution ?? []).map((band) => ({ label: band.label, value: band.count }))} />
+            </Card>
+            <Card>
+              <h2 className="mb-4 text-sm font-medium text-muted">Analyses by type</h2>
+              <Rows
+                bars={[
+                  { label: "Summary", value: data.analysesByType?.SUMMARY ?? 0 },
+                  { label: "Mind map", value: data.analysesByType?.MIND_MAP ?? 0 },
+                  { label: "Deep analysis", value: data.analysesByType?.DEEP_ANALYSIS ?? 0 },
+                  { label: "Exam prep", value: data.analysesByType?.EXAM_PREP ?? 0 },
+                ]}
+              />
             </Card>
             <Card>
               <h2 className="text-sm font-medium text-muted">AI performance</h2>
