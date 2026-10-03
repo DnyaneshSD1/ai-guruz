@@ -66,3 +66,4 @@ aiguruz:
   gateway:
     requests-per-minute: ${RATE_LIMIT_PER_MINUTE:300}
     auth-requests-per-minute: ${AUTH_RATE_LIMIT_PER_MINUTE:30}
+    trust-proxy: ${TRUST_PROXY:false}   # true only when a reverse proxy you control is the sole way in

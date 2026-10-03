@@ -1,0 +1,30 @@
+# SITE_ADDRESS is a hostname (HTTPS certificate issued automatically), for example
+#   aiguruz.com, www.aiguruz.com        once the domain points at this server
+#   203-0-113-10.sslip.io               before that: your server's IP with dashes, plus .sslip.io
+{$SITE_ADDRESS} {
+	encode gzip zstd
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		-Server
+	}
+
+	# Uploads are capped by the backend at 25 MB.
+	request_body {
+		max_size 26MB
+	}
+
+	handle /api/* {
+		reverse_proxy gateway:8080 {
+			# AI requests can take a while; keep the connection open.
+			transport http {
+				response_header_timeout 6m
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy web:3000
+	}
+}

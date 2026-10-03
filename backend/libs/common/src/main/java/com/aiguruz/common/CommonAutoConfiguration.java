@@ -4,6 +4,7 @@ import com.aiguruz.common.ai.AiService;
 import com.aiguruz.common.ai.ClaudeLlmClient;
 import com.aiguruz.common.ai.LlmClient;
 import com.aiguruz.common.ai.OllamaLlmClient;
+import com.aiguruz.common.ai.OpenAiCompatibleLlmClient;
 import com.aiguruz.common.client.ServiceClient;
 import com.aiguruz.common.events.EventPublisher;
 import com.aiguruz.common.events.Events;
@@ -46,6 +47,7 @@ public class CommonAutoConfiguration {
         return switch (props.ai().provider()) {
             case "claude" -> new ClaudeLlmClient(props.ai());
             case "ollama" -> new OllamaLlmClient(props.ai());
+            case "openai" -> new OpenAiCompatibleLlmClient(props.ai());
             default -> LlmClient.NONE;
         };
     }

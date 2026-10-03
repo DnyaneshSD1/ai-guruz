@@ -30,13 +30,17 @@ aiguruz:
     mode: ${EVENTS_MODE:http}          # http | sqs | none
     queue-url: ${EVENTS_QUEUE_URL:}
   ai:
-    provider: ${AI_PROVIDER:ollama}    # ollama | claude | mock
+    provider: ${AI_PROVIDER:ollama}    # ollama | openai | claude | mock
     max-input-chars: ${AI_MAX_INPUT_CHARS:0}
     timeout-seconds: ${AI_TIMEOUT_SECONDS:300}
     ollama:
       base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
       model: ${OLLAMA_MODEL:llama3.2:3b}
       context-tokens: ${OLLAMA_CONTEXT_TOKENS:8192}
+    openai:                            # any OpenAI-compatible API; the defaults are Groq's free tier
+      base-url: ${OPENAI_BASE_URL:https://api.groq.com/openai/v1}
+      api-key: ${OPENAI_API_KEY:}
+      model: ${OPENAI_MODEL:llama-3.3-70b-versatile}
     claude:
       api-key: ${ANTHROPIC_API_KEY:}
       model: ${CLAUDE_MODEL:claude-opus-5-5}

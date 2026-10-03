@@ -27,11 +27,14 @@ public class RateLimitFilter implements GlobalFilter, Ordered {
     private final Map<String, Window> windows = new ConcurrentHashMap<>();
     private final int perMinute;
     private final int authPerMinute;
+    private final boolean trustProxy;
 
     public RateLimitFilter(@Value("${aiguruz.gateway.requests-per-minute}") int perMinute,
-                           @Value("${aiguruz.gateway.auth-requests-per-minute}") int authPerMinute) {
+                           @Value("${aiguruz.gateway.auth-requests-per-minute}") int authPerMinute,
+                           @Value("${aiguruz.gateway.trust-proxy}") boolean trustProxy) {
         this.perMinute = perMinute;
         this.authPerMinute = authPerMinute;
+        this.trustProxy = trustProxy;
     }
 
     @Override
@@ -62,7 +65,15 @@ public class RateLimitFilter implements GlobalFilter, Ordered {
         return chain.filter(exchange);
     }
 
-    private static String clientAddress(ServerWebExchange exchange) {
+    private String clientAddress(ServerWebExchange exchange) {
+        if (trustProxy) {
+            // Behind a reverse proxy every connection comes from the proxy; the last X-Forwarded-For
+            // entry is the address the proxy itself saw, which a client cannot forge.
+            String forwarded = exchange.getRequest().getHeaders().getFirst("X-Forwarded-For");
+            if (forwarded != null && !forwarded.isBlank()) {
+                return forwarded.substring(forwarded.lastIndexOf(',') + 1).strip();
+            }
+        }
         InetSocketAddress remote = exchange.getRequest().getRemoteAddress();
         return remote == null || remote.getAddress() == null ? "unknown" : remote.getAddress().getHostAddress();
     }

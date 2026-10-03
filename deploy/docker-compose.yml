@@ -1,0 +1,42 @@
+# Public deployment on one server (built for an Oracle Cloud Always Free ARM VM, works on any Docker host).
+#
+#   Internet ──443──> caddy ──/api/*──> gateway ──> 7 services ──> mongo
+#                        └────/*─────> web
+#
+# Caddy obtains and renews the HTTPS certificate automatically. Site and API share one origin,
+# so there is no CORS and the session cookie is first-party.
+#
+#   cp .env.example .env    (fill it in)
+#   docker compose up -d --build
+include:
+  - path: ../backend/docker-compose.yml
+    env_file: ./.env                      # the backend services read their settings from deploy/.env
+
+services:
+  web:
+    build:
+      context: ../web
+      args:
+        NEXT_PUBLIC_API_URL: "/"          # same origin: the browser calls /api/... on this site
+    restart: unless-stopped
+    mem_limit: 512m
+    depends_on: [gateway]
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    mem_limit: 256m
+    depends_on: [web, gateway]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:?set SITE_ADDRESS in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  caddy-data:
+  caddy-config:

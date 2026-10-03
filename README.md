@@ -15,6 +15,7 @@ moved to its own repository unchanged.
 | [web/](web/) | Public website and browser app | Next.js 16, React 19, Tailwind 4 | [web/README.md](web/README.md) |
 | [mobile/](mobile/) | iOS and Android app | Expo SDK 57, React Native | [mobile/README.md](mobile/README.md) |
 | [lambdas/](lambdas/) | Document text extraction for AWS | Python 3.13 | [lambdas/README.md](lambdas/README.md) |
+| [deploy/](deploy/) | Free public deployment on one server (Oracle Cloud VM, Caddy HTTPS, Groq AI) | Docker Compose | [deploy/README.md](deploy/README.md) |
 | [infra/](infra/) | How the pieces map onto AWS | – | [infra/README.md](infra/README.md) |
 
 ## Architecture

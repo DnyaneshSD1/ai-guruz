@@ -22,13 +22,21 @@ public record AiGuruzProperties(
             @DefaultValue("http") String mode,
             @DefaultValue("") String queueUrl) {}
 
-    /** provider: ollama (local), claude (Anthropic API), mock (offline heuristics only). */
+    /** provider: ollama (local), openai (any OpenAI-compatible API, e.g. Groq), claude (Anthropic API), mock (offline heuristics only). */
     public record Ai(
             @DefaultValue("ollama") String provider,
             @DefaultValue("0") int maxInputChars,
             @DefaultValue("300") int timeoutSeconds,
             @DefaultValue Ollama ollama,
-            @DefaultValue Claude claude) {
+            @DefaultValue Claude claude,
+            @DefaultValue OpenAi openai) {
+
+        /** Any server that speaks the OpenAI chat-completions protocol (Groq, Gemini, OpenRouter, ...). */
+        public record OpenAi(
+                @DefaultValue("https://api.groq.com/openai/v1") String baseUrl,
+                @DefaultValue("") String apiKey,
+                @DefaultValue("llama-3.3-70b-versatile") String model,
+                @DefaultValue("24000") int maxInputChars) {}
 
         public record Ollama(
                 @DefaultValue("http://localhost:11434") String baseUrl,

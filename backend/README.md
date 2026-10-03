@@ -129,7 +129,8 @@ All configuration is environment variables with local defaults; nothing cloud-sp
 | `SPRING_PROFILES_ACTIVE` | – | `prod` refuses to start with the development internal key |
 | `INTERNAL_API_KEY` | development value | Secret for `/internal/**`; must be set in production |
 | `JWKS_URI` | `http://localhost:8101/.well-known/jwks.json` | Where services fetch the token verification key |
-| `AI_PROVIDER` | `ollama` | `ollama`, `claude` or `mock` |
+| `AI_PROVIDER` | `ollama` | `ollama`, `openai` (any OpenAI-compatible API, e.g. Groq), `claude` or `mock` |
+| `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL` | Groq URL, –, `llama-3.3-70b-versatile` | OpenAI-compatible provider |
 | `OLLAMA_BASE_URL`, `OLLAMA_MODEL`, `OLLAMA_CONTEXT_TOKENS` | `http://localhost:11434`, `llama3.2:3b`, `8192` | Local model |
 | `ANTHROPIC_API_KEY`, `CLAUDE_MODEL` | –, `claude-opus-5-5` | Claude API |
 | `EVENTS_MODE`, `EVENTS_QUEUE_URL` | `http` | `sqs` sends events through an SQS queue |
@@ -142,6 +143,7 @@ All configuration is environment variables with local defaults; nothing cloud-sp
 | `JWT_PRIVATE_KEY` | – | Base64 PKCS#8 RSA key; empty = generated once and kept in MongoDB |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:3000,http://localhost:8081` | Browser origins the gateway accepts |
 | `RATE_LIMIT_PER_MINUTE`, `AUTH_RATE_LIMIT_PER_MINUTE` | `300`, `30` | Gateway limits per client address |
+| `TRUST_PROXY` | `false` | `true` when a reverse proxy is the only way in (rate limits then use `X-Forwarded-For`) |
 | `*_SERVICE_URL` | localhost ports | Where services find each other |
 
 ## API

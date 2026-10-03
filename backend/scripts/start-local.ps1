@@ -1,4 +1,4 @@
-<#
+﻿<#
 Starts the whole backend on this machine with no cloud services and no Docker:
 MongoDB (portable copy under .local/, downloaded on first run if mongod is not installed) + the 8 services.
 
@@ -11,7 +11,7 @@ MongoDB (portable copy under .local/, downloaded on first run if mongod is not i
 Logs: .local/logs/<service>.log   Stop: .\scripts\stop-local.ps1
 #>
 param(
-    [ValidateSet('ollama', 'claude', 'mock')] [string]$AiProvider = 'ollama',
+    [ValidateSet('ollama', 'openai', 'claude', 'mock')] [string]$AiProvider = 'ollama',
     [switch]$Build,
     [string[]]$Only,
     [string]$HeapMb = '192',

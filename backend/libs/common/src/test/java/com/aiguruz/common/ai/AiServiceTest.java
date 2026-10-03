@@ -14,7 +14,8 @@ class AiServiceTest {
 
     private static final AiGuruzProperties.Ai CONFIG = new AiGuruzProperties.Ai("mock", 20, 5,
             new AiGuruzProperties.Ai.Ollama("http://localhost:11434", "m", 8192),
-            new AiGuruzProperties.Ai.Claude("", "claude-opus-5-5", 16000));
+            new AiGuruzProperties.Ai.Claude("", "claude-opus-5-5", 16000),
+            new AiGuruzProperties.Ai.OpenAi("https://api.groq.com/openai/v1", "", "m", 24000));
 
     private static LlmClient replying(String reply) {
         return new LlmClient() {

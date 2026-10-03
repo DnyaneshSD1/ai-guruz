@@ -1,6 +1,8 @@
 import type { Session } from "./types";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
+// "/" means the API is served from the same origin as the site (a reverse proxy routes /api to the gateway).
+const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
+export const API_URL = configuredApiUrl === "/" ? "" : configuredApiUrl.replace(/\/$/, "");
 
 export class ApiError extends Error {
   constructor(public status: number, public code: string, message: string) {
