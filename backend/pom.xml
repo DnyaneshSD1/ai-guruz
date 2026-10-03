@@ -10,11 +10,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>ai.guruz.learnmind</groupId>
-    <artifactId>learnmind-backend</artifactId>
+    <groupId>com.aiguruz</groupId>
+    <artifactId>aiguruz-backend</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>LearnMind AI Backend</name>
+    <name>AI Guruz Backend</name>
 
     <modules>
         <module>libs/common</module>
@@ -53,8 +53,8 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>ai.guruz.learnmind</groupId>
-                <artifactId>learnmind-common</artifactId>
+                <groupId>com.aiguruz</groupId>
+                <artifactId>aiguruz-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

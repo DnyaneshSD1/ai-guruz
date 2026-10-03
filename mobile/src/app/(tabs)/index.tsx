@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 
+import { Logo } from '@/components/Logo';
 import { Badge, Bar, Card, Empty, ErrorNote, Loading, Screen, T, percent, useLoad } from '@/components/ui';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/providers';
@@ -23,6 +24,7 @@ export default function Home() {
 
   return (
     <Screen onRefresh={reload}>
+      <Logo />
       <T variant="title">Hello, {user?.name.split(' ')[0]}</T>
       <ErrorNote error={error} />
       {loading ? (

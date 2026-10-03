@@ -1,8 +1,8 @@
-# LearnMind AI
+# AI Guruz
 
 An AI-powered learning operating system: it turns uploaded documents into structured knowledge, researches
 any topic, plans a beginner-to-expert curriculum, assesses the learner after every module and reshapes the
-path around what they actually know. Built from `LearnMind_AI_Combined_PRD_v2`.
+path around what they actually know. Built from `LearnMind_AI_Combined_PRD_v2` (the product has since been renamed from LearnMind AI to AI Guruz).
 
 ## What is in this repository
 
@@ -77,7 +77,7 @@ npx expo start
 ```
 
 Sign in with a seeded demo account (password `Demo@1234`):
-`admin@demo.learnmind.ai`, `teacher@…`, `librarian@…`, `researcher@…`, `student@…`.
+`admin@demo.aiguruz.com`, `teacher@…`, `librarian@…`, `researcher@…`, `student@…`.
 
 Stop the backend with `backend\scripts\stop-local.ps1`.
 
@@ -135,4 +135,4 @@ Data never crosses institutions: every record carries a tenant id and every quer
   key on this machine), the Docker images (Docker is not installed on this machine), and the mobile app on a real
   device or emulator (it type-checks and bundles for iOS and Android).
 - **Mobile** does not download the original uploaded file; everything else matches the web app.
-- The landing page copy and contact details in `web/src/content/site.ts` are placeholders.
+- The landing page copy in `web/src/content/site.ts` (features, about text) is draft wording; the contact details are the real ones.

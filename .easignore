@@ -1,0 +1,19 @@
+# EAS Build uploads the whole git repository unless told otherwise. Only mobile/ is needed to build the app.
+# (When this file exists EAS ignores .gitignore, so the usual exclusions are repeated here.)
+/backend
+/web
+/lambdas
+/infra
+/.github
+/.claude
+/docker-compose.yml
+
+node_modules
+.expo
+dist
+web-build
+/mobile/android
+/mobile/ios
+.env
+.env*.local
+*.log

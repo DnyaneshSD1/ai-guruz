@@ -1,4 +1,4 @@
-# LearnMind AI — Production on AWS
+# AI Guruz — Production on AWS
 
 The code runs the same way everywhere; production differs from a laptop only in configuration. This page maps
 each local piece to its AWS counterpart and lists the settings that change. It is a deployment guide, not

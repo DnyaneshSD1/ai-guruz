@@ -16,7 +16,7 @@ export const viewport: Viewport = {
 };
 
 // Runs before first paint so the saved (or system) theme is applied without a flash.
-const themeScript = `(function(){try{var t=localStorage.getItem('lm-theme')||'system';
+const themeScript = `(function(){try{var t=localStorage.getItem('aiguruz-theme')||'system';
 var d=t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);
 document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();`;
 

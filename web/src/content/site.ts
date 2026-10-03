@@ -1,15 +1,15 @@
 // All public-facing company and product copy lives here. Edit this file to change the landing page.
-// NOTE: company details below are placeholders — replace them with AI Guruz's real information before launch.
 export const site = {
-  product: "LearnMind AI",
+  product: "AI Guruz",
   company: "AI Guruz",
+  domain: "aiguruz.com",
   tagline: "The learning operating system",
   description:
-    "LearnMind AI by AI Guruz turns documents into structured knowledge and builds adaptive, personalised learning paths on any topic.",
+    "AI Guruz turns documents into structured knowledge and builds adaptive, personalised learning paths on any topic.",
   hero: {
     title: "Learning that adapts to every learner.",
     subtitle:
-      "Upload a document or name a topic. LearnMind researches it, plans a path from beginner to expert, checks understanding after every module, and reshapes the path around what each learner actually knows.",
+      "Upload a document or name a topic. AI Guruz researches it, plans a path from beginner to expert, checks understanding after every module, and reshapes the path around what each learner actually knows.",
   },
   features: [
     { title: "Document intelligence", body: "Summaries, mind maps, deep analysis and exam preparation from PDFs, slides and notes, with a grounding score on every result." },
@@ -37,8 +37,8 @@ export const site = {
   about: {
     title: "About AI Guruz",
     body: [
-      "AI Guruz builds applied AI products for education. We believe the most valuable thing software can do for a learner is notice what they do not yet understand and respond to it.",
-      "LearnMind AI is our learning operating system: enterprise-grade document analysis combined with an agentic learning engine that researches, plans, assesses and adapts continuously.",
+      "AI Guruz builds applied AI for education. We believe the most valuable thing software can do for a learner is notice what they do not yet understand and respond to it.",
+      "Our platform is a learning operating system: enterprise-grade document analysis combined with an agentic learning engine that researches, plans, assesses and adapts continuously.",
     ],
     facts: [
       { label: "Platforms", value: "Web, iOS, Android" },
@@ -47,8 +47,7 @@ export const site = {
     ],
   },
   contact: {
-    email: "hello@aiguruz.example",
-    sales: "sales@aiguruz.example",
-    address: "AI Guruz, India",
+    email: "info@aiguruz.com",
+    address: "Pune, Maharashtra, India",
   },
 };

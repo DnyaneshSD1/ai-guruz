@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "LearnMind AI",
+    "name": "AI Guruz",
     "slug": "learnmind-ai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "learnmind",
+    "scheme": "aiguruz",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon",
-      "bundleIdentifier": "ai.guruz.learnmind",
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "com.aiguruz.app",
       "supportsTablet": true
     },
     "android": {
@@ -20,7 +20,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "ai.guruz.learnmind"
+      "package": "com.aiguruz.app"
     },
     "web": {
       "output": "static",
@@ -36,8 +36,13 @@
           "imageWidth": 76
         }
       ],
-      "expo-secure-store",
       "expo-secure-store"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "3920035e-d2f1-4a0b-99d4-04146f43891b"
+      }
+    }
   }
 }

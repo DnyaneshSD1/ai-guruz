@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "./Providers";
-import { ThemeToggle } from "./ThemeToggle";
+import { Logo } from "./Logo";
+import { ThemeMenu } from "./TopBarMenus";
 import { Button, ErrorNote, Field, Input, Select, cx } from "./ui";
-import { site } from "@/content/site";
 import type { Role } from "@/lib/types";
 
 type Mode = "login" | "register";
@@ -62,8 +62,8 @@ export function AuthForm({ mode }: { mode: Mode }) {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="flex h-14 items-center justify-between px-5">
-        <Link href="/" className="font-semibold tracking-tight">{site.product}</Link>
-        <ThemeToggle />
+        <Logo />
+        <ThemeMenu />
       </header>
       <main className="flex flex-1 items-center justify-center px-5 py-10">
         <form onSubmit={submit} className="w-full max-w-sm space-y-4">

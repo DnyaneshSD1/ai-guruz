@@ -21,7 +21,7 @@ export const palettes = {
 export type Palette = typeof palettes.light;
 export type ThemeChoice = 'light' | 'dark' | 'system';
 
-const THEME_KEY = 'lm_theme';
+const THEME_KEY = 'aiguruz_theme';
 
 const ThemeContext = createContext<{ colors: Palette; dark: boolean; choice: ThemeChoice; setChoice: (c: ThemeChoice) => void }>({
   colors: palettes.light,

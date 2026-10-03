@@ -1,4 +1,4 @@
-# LearnMind AI — Backend
+# AI Guruz — Backend
 
 Java 21 · Spring Boot 4 · MongoDB · Maven multi-module. One API gateway and seven services, each a separate
 deployable with its own database.
@@ -73,7 +73,7 @@ installed. Optional: Ollama with `ollama pull llama3.2:3b`.
 
 The API is at `http://localhost:8080`. Logs are in `.local/logs/`, uploaded files in `.local/storage/`, database
 files in `.local/data/`. Demo accounts (`SEED_DEMO=true` in the script): `admin`, `teacher`, `librarian`,
-`researcher`, `student` `@demo.learnmind.ai`, password `Demo@1234`.
+`researcher`, `student` `@demo.aiguruz.com`, password `Demo@1234`.
 
 The script runs each JVM with a 192 MB heap so all eight fit on an 8 GB laptop; pass `-HeapMb 384` if you have
 more memory. Starting everything takes one to two minutes.
@@ -125,7 +125,7 @@ All configuration is environment variables with local defaults; nothing cloud-sp
 | Variable | Default | Meaning |
 |---|---|---|
 | `PORT` | per service | HTTP port |
-| `MONGODB_URI` | `mongodb://localhost:27017/learnmind_<service>` | Database of the service (Atlas / DocumentDB URI in production) |
+| `MONGODB_URI` | `mongodb://localhost:27017/aiguruz_<service>` | Database of the service (Atlas / DocumentDB URI in production) |
 | `SPRING_PROFILES_ACTIVE` | – | `prod` refuses to start with the development internal key |
 | `INTERNAL_API_KEY` | development value | Secret for `/internal/**`; must be set in production |
 | `JWKS_URI` | `http://localhost:8101/.well-known/jwks.json` | Where services fetch the token verification key |

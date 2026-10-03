@@ -1,4 +1,4 @@
-# LearnMind AI — Mobile
+# AI Guruz — Mobile
 
 One codebase for iOS and Android. Expo SDK 57, React Native, TypeScript, Expo Router. It uses the same backend API
 as the web app and offers the same features, laid out for a phone.
@@ -64,8 +64,8 @@ npx expo-doctor         # dependency and config check
 Use EAS Build (`npm i -g eas-cli`, `eas build:configure`, `eas build --platform all`). Before building:
 
 - set `EXPO_PUBLIC_API_URL` to the HTTPS address of the API (release builds on both platforms block plain HTTP);
-- replace the placeholder icons and splash image in `assets/`;
-- confirm the identifiers in `app.json` (`ai.guruz.learnmind`).
+- the icons and splash image in `assets/images/` are generated from the AI Guruz logo; replace them if the artwork changes;
+- confirm the identifiers in `app.json` (`com.aiguruz.app`).
 
 ## Status
 

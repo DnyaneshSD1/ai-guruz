@@ -1,4 +1,4 @@
-# LearnMind AI — Web
+# AI Guruz — Web
 
 The public website (company and product information) and the full browser app. Next.js 16 (App Router),
 React 19, TypeScript, Tailwind CSS 4. It has no server-side logic of its own: after the page loads, the browser
@@ -22,8 +22,10 @@ web/src/
 ├── components/
 │   ├── Providers.tsx                session (AuthContext) and theme (ThemeContext)
 │   ├── ui.tsx                       buttons, fields, cards, tabs, useLoad data hook
+│   ├── Logo.tsx                     the AI Guruz mark and wordmark (also app/icon.svg)
+│   ├── TopBarMenus.tsx              theme dropdown and profile menu (top right)
 │   ├── AnalysisView.tsx  Quiz.tsx  AuthForm.tsx  ThemeToggle.tsx
-├── content/site.ts                  ALL landing-page copy and company details (placeholders — edit here)
+├── content/site.ts                  ALL landing-page copy and company details (edit here)
 └── lib/
     ├── api.ts                       fetch wrapper: bearer token, silent refresh, errors
     └── types.ts                     API response types
@@ -36,7 +38,7 @@ web/src/
   `/api/auth/refresh` once and retries; if that fails the user is sent to sign in.
 - **Authorization.** `app/app/layout.tsx` redirects signed-out visitors and shows navigation by role. Pages for
   admins also check the role. These checks are for clarity only: the backend enforces every rule.
-- **Theme.** Light, dark or system, chosen in the sidebar or Settings and stored in `localStorage`. A small inline
+- **Theme.** Light, dark or system, chosen from the menu in the top-right corner (or Settings) and stored in `localStorage`. A small inline
   script in `app/layout.tsx` applies it before first paint. Colours are CSS variables in `app/globals.css`.
 - **Long-running work.** Lists and detail pages poll every 3 seconds while something is `PROCESSING`,
   `PENDING` or `GENERATING`.
@@ -57,7 +59,7 @@ list this site's origin in `CORS_ALLOWED_ORIGINS`.
 
 ```bash
 npm run build && npm run start                                   # Node server on :3000
-docker build --build-arg NEXT_PUBLIC_API_URL=https://api.example.com -t learnmind/web .
+docker build --build-arg NEXT_PUBLIC_API_URL=https://api.example.com -t aiguruz/web .
 ```
 
 `NEXT_PUBLIC_API_URL` is compiled into the browser bundle, so it is set at build time. For the refresh cookie to

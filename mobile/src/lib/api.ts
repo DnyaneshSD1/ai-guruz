@@ -15,7 +15,7 @@ export class ApiError extends Error {
   }
 }
 
-const REFRESH_KEY = 'lm_refresh_token';
+const REFRESH_KEY = 'ag_refresh_token';
 
 // The refresh token is kept in the device keychain/keystore. (Expo's web target has no secure store.)
 const tokenStore = {

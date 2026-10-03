@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: LearnMind AI - document text extraction (S3 upload -> extract -> callback to document service)
+Description: AI Guruz - document text extraction (S3 upload -> extract -> callback to document service)
 
 # Deploy with:  sam build && sam deploy --guided
 # The function must be able to reach the document service, so it runs inside the same VPC.
@@ -11,7 +11,7 @@ Parameters:
     Description: Name for the bucket that stores uploaded documents (use the same value for STORAGE_S3_BUCKET)
   DocumentServiceUrl:
     Type: String
-    Description: Internal URL of the document service, e.g. http://document-service.learnmind.local:8102
+    Description: Internal URL of the document service, e.g. http://document-service.aiguruz.local:8102
   InternalApiKey:
     Type: String
     NoEcho: true

@@ -48,7 +48,7 @@ export default function HomePage() {
             {progress.length === 0 ? (
               <Empty
                 title="No learning paths yet"
-                body="Name any topic and LearnMind will research it and plan a path from beginner to expert."
+                body="Name any topic and AI Guruz will research it and plan a path from beginner to expert."
                 action={<Link href="/app/learn" className="inline-flex h-10 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-fg">Start a path</Link>}
               />
             ) : (

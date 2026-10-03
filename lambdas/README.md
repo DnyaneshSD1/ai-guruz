@@ -1,4 +1,4 @@
-# LearnMind AI — Lambdas
+# AI Guruz — Lambdas
 
 Python functions used only in the AWS deployment. Nothing here is needed to run the platform locally.
 

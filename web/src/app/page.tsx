@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { Logo } from "@/components/Logo";
+import { PublicHeaderActions } from "@/components/TopBarMenus";
 import { site } from "@/content/site";
 
 const linkButton = "inline-flex h-11 items-center rounded-lg px-5 text-sm font-medium transition";
@@ -9,9 +10,7 @@ export default function LandingPage() {
     <div>
       <header className="sticky top-0 z-10 border-b border-border bg-bg/80 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-5">
-          <Link href="/" className="font-semibold tracking-tight">
-            {site.product}
-          </Link>
+          <Logo />
           <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
             <a href="#features" className="hover:text-fg">Features</a>
             <a href="#how" className="hover:text-fg">How it works</a>
@@ -19,18 +18,13 @@ export default function LandingPage() {
             <a href="#about" className="hover:text-fg">About</a>
             <a href="#contact" className="hover:text-fg">Contact</a>
           </nav>
-          <div className="flex items-center gap-2">
-            <Link href="/login" className="hidden px-3 text-sm hover:underline sm:block">Sign in</Link>
-            <Link href="/register" className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-fg hover:opacity-85">
-              Get started
-            </Link>
-          </div>
+          <PublicHeaderActions />
         </div>
       </header>
 
       <main>
         <section className="mx-auto max-w-6xl px-5 pb-20 pt-20 md:pt-28">
-          <p className="text-sm text-muted">{site.product} by {site.company}</p>
+          <p className="text-sm text-muted">{site.tagline}</p>
           <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[1.1] tracking-tight md:text-6xl">{site.hero.title}</h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{site.hero.subtitle}</p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -106,15 +100,15 @@ export default function LandingPage() {
         <section id="contact" className="border-t border-border">
           <div className="mx-auto max-w-6xl px-5 py-20">
             <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Talk to us</h2>
-            <p className="mt-2 max-w-xl text-muted">Bring LearnMind AI to your institution, or ask us anything about the platform.</p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <p className="mt-2 max-w-xl text-muted">Bring AI Guruz to your institution, or ask us anything about the platform.</p>
+            <div className="mt-8 grid gap-6 sm:grid-cols-3">
               <div>
-                <p className="text-xs uppercase tracking-wider text-muted">General</p>
+                <p className="text-xs uppercase tracking-wider text-muted">Email</p>
                 <a href={`mailto:${site.contact.email}`} className="mt-1 block text-sm underline underline-offset-4">{site.contact.email}</a>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wider text-muted">Institutions</p>
-                <a href={`mailto:${site.contact.sales}`} className="mt-1 block text-sm underline underline-offset-4">{site.contact.sales}</a>
+                <p className="text-xs uppercase tracking-wider text-muted">Website</p>
+                <a href={`https://${site.domain}`} className="mt-1 block text-sm underline underline-offset-4">{site.domain}</a>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-wider text-muted">Office</p>
@@ -127,8 +121,10 @@ export default function LandingPage() {
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-6">
-          <p className="text-sm text-muted">© {new Date().getFullYear()} {site.company}. All rights reserved.</p>
-          <ThemeToggle />
+          <Logo />
+          <p className="text-sm text-muted">
+            © {new Date().getFullYear()} {site.company} · {site.contact.address} · <a href={`mailto:${site.contact.email}`} className="hover:text-fg">{site.contact.email}</a>
+          </p>
         </div>
       </footer>
     </div>

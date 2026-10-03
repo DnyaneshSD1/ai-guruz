@@ -40,7 +40,7 @@ function LearnContent() {
 
   return (
     <>
-      <PageHeader title="Learn" subtitle="Name a topic. LearnMind researches it and plans your path from beginner to expert." />
+      <PageHeader title="Learn" subtitle="Name a topic. AI Guruz researches it and plans your path from beginner to expert." />
 
       <Card className="mb-8">
         <form onSubmit={create} className="grid gap-4 md:grid-cols-[2fr_2fr_1fr_auto] md:items-end">

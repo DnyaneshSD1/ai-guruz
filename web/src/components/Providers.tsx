@@ -57,16 +57,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = (localStorage.getItem("lm-theme") as ThemeChoice | null) ?? "system";
+    const saved = (localStorage.getItem("aiguruz-theme") as ThemeChoice | null) ?? "system";
     setThemeState(saved);
     const media = matchMedia("(prefers-color-scheme: dark)");
-    const onChange = () => applyTheme((localStorage.getItem("lm-theme") as ThemeChoice | null) ?? "system");
+    const onChange = () => applyTheme((localStorage.getItem("aiguruz-theme") as ThemeChoice | null) ?? "system");
     media.addEventListener("change", onChange);
     return () => media.removeEventListener("change", onChange);
   }, []);
 
   const setTheme = useCallback((choice: ThemeChoice) => {
-    localStorage.setItem("lm-theme", choice);
+    localStorage.setItem("aiguruz-theme", choice);
     setThemeState(choice);
     applyTheme(choice);
   }, []);

@@ -48,7 +48,7 @@ export default function Learn() {
   return (
     <Screen onRefresh={reload}>
       <T variant="title">Learn</T>
-      <T muted>Name a topic. LearnMind researches it and plans your path from beginner to expert.</T>
+      <T muted>Name a topic. AI Guruz researches it and plans your path from beginner to expert.</T>
 
       <Card style={{ gap: 12 }}>
         <Field label="Topic" value={topic} onChangeText={setTopic} placeholder="e.g. Machine learning" maxLength={200} />

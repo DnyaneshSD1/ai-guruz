@@ -1,0 +1,47 @@
+# Defaults shared by every servlet service (imported from each service's application.yml).
+# Everything here runs locally with no cloud dependency; override the environment variables for production.
+server:
+  shutdown: graceful
+  forward-headers-strategy: framework
+
+spring:
+  jackson:
+    deserialization:
+      fail-on-null-for-primitives: false   # optional flags and numbers may simply be left out of a request
+  data:
+    mongodb:
+      auto-index-creation: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+aiguruz:
+  security:
+    jwk-set-uri: ${JWKS_URI:http://localhost:8101/.well-known/jwks.json}
+    internal-key: ${INTERNAL_API_KEY:local-internal-key-change-me}
+  events:
+    mode: ${EVENTS_MODE:http}          # http | sqs | none
+    queue-url: ${EVENTS_QUEUE_URL:}
+  ai:
+    provider: ${AI_PROVIDER:ollama}    # ollama | claude | mock
+    max-input-chars: ${AI_MAX_INPUT_CHARS:0}
+    timeout-seconds: ${AI_TIMEOUT_SECONDS:300}
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      model: ${OLLAMA_MODEL:llama3.2:3b}
+      context-tokens: ${OLLAMA_CONTEXT_TOKENS:8192}
+    claude:
+      api-key: ${ANTHROPIC_API_KEY:}
+      model: ${CLAUDE_MODEL:claude-opus-5-5}
+  services:
+    document-url: ${DOCUMENT_SERVICE_URL:http://localhost:8102}
+    curriculum-url: ${CURRICULUM_SERVICE_URL:http://localhost:8104}
+    learning-url: ${LEARNING_SERVICE_URL:http://localhost:8106}
+    analytics-url: ${ANALYTICS_SERVICE_URL:http://localhost:8107}

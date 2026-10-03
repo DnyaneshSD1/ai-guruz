@@ -5,15 +5,15 @@ spring:
   application:
     name: document-service
   config:
-    import: classpath:learnmind-common.yml
+    import: classpath:aiguruz-common.yml
   mongodb:
-    uri: ${MONGODB_URI:mongodb://localhost:27017/learnmind_documents}
+    uri: ${MONGODB_URI:mongodb://localhost:27017/aiguruz_documents}
   servlet:
     multipart:
       max-file-size: 25MB
       max-request-size: 26MB
 
-learnmind:
+aiguruz:
   documents:
     storage: ${STORAGE_MODE:local}                  # local | s3
     local-dir: ${STORAGE_LOCAL_DIR:./.local/storage}

@@ -87,4 +87,4 @@ foreach ($name in $services.Keys) {
 Write-Host ''
 Write-Host 'Backend is up:  http://localhost:8080  (API gateway)'
 Write-Host "AI provider:    $AiProvider"
-Write-Host 'Demo accounts:  admin|teacher|librarian|researcher|student@demo.learnmind.ai  /  Demo@1234'
+Write-Host 'Demo accounts:  admin|teacher|librarian|researcher|student@demo.aiguruz.com  /  Demo@1234'

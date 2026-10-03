@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>ai.guruz.learnmind</groupId>
-        <artifactId>learnmind-backend</artifactId>
+        <groupId>com.aiguruz</groupId>
+        <artifactId>aiguruz-backend</artifactId>
         <version>1.0.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>

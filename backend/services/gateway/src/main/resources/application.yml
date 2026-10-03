@@ -62,7 +62,7 @@ management:
       exposure:
         include: health,info
 
-learnmind:
+aiguruz:
   gateway:
     requests-per-minute: ${RATE_LIMIT_PER_MINUTE:300}
     auth-requests-per-minute: ${AUTH_RATE_LIMIT_PER_MINUTE:30}

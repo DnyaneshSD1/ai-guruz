@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, View } from 'react-native';
 
+import { Logo } from './Logo';
 import { Button, ErrorNote, Field, Screen, Segmented, T, errorMessage } from './ui';
 import { useAuth } from '@/lib/providers';
 import type { Role } from '@/lib/types';
@@ -47,7 +48,7 @@ export function AuthScreen({ mode }: { mode: 'login' | 'register' }) {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Screen edges={['top', 'bottom']}>
         <View style={{ marginTop: 32, marginBottom: 12, gap: 6 }}>
-          <T variant="label" muted>LearnMind AI</T>
+          <Logo size={32} />
           <T variant="title">{mode === 'login' ? 'Welcome back' : 'Create your account'}</T>
           <T muted>{mode === 'login' ? 'Sign in to continue learning.' : 'Start with a personal workspace or your institution.'}</T>
         </View>

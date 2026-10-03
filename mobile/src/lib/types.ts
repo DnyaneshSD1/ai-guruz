@@ -1,4 +1,4 @@
-// Shapes returned by the LearnMind API (see backend/README.md for the endpoint list).
+// Shapes returned by the AI Guruz API (see backend/README.md for the endpoint list).
 
 export type Role = "STUDENT" | "RESEARCHER" | "TEACHER" | "LIBRARIAN" | "ADMIN";
 

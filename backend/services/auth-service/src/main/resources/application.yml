@@ -5,11 +5,11 @@ spring:
   application:
     name: auth-service
   config:
-    import: classpath:learnmind-common.yml
+    import: classpath:aiguruz-common.yml
   mongodb:
-    uri: ${MONGODB_URI:mongodb://localhost:27017/learnmind_auth}
+    uri: ${MONGODB_URI:mongodb://localhost:27017/aiguruz_auth}
 
-learnmind:
+aiguruz:
   security:
     public-paths:
       - /api/auth/register
