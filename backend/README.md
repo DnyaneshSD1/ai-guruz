@@ -1,43 +1,43 @@
-# AI Guruz â€” Backend
+# AI Guruz — Backend
 
-Java 21 Â· Spring Boot 4 Â· MongoDB Â· Maven multi-module. One API gateway and seven services, each a separate
+Java 21 · Spring Boot 4 · MongoDB · Maven multi-module. One API gateway and seven services, each a separate
 deployable with its own database.
 
 ## Layout
 
 ```
 backend/
-â”œâ”€â”€ pom.xml                      parent build (versions, module list)
-â”œâ”€â”€ libs/common/                 shared library used by every servlet service
-â”‚   â”œâ”€â”€ security/                token verification, CurrentUser, roles, internal-key filter
-â”‚   â”œâ”€â”€ web/                     uniform error responses
-â”‚   â”œâ”€â”€ events/                  audit/activity event publishing (HTTP locally, SQS in production)
-â”‚   â”œâ”€â”€ ai/                      model clients (Ollama, Claude), AiService with offline fallback, text heuristics
-â”‚   â””â”€â”€ client/                  service-to-service HTTP client that forwards the user's token
-â”œâ”€â”€ services/
-â”‚   â”œâ”€â”€ gateway/            :8080   routing, CORS, rate limiting (Spring Cloud Gateway)
-â”‚   â”œâ”€â”€ auth-service/       :8101   users, institutions, login, tokens, roles
-â”‚   â”œâ”€â”€ document-service/   :8102   upload, storage, text extraction, sharing
-â”‚   â”œâ”€â”€ analysis-service/   :8103   summary, mind map, deep analysis, exam prep
-â”‚   â”œâ”€â”€ curriculum-service/ :8104   research, planning, lessons, path changes
-â”‚   â”œâ”€â”€ assessment-service/ :8105   quizzes and grading
-â”‚   â”œâ”€â”€ learning-service/   :8106   mastery, path decisions, knowledge graph, recommendations
-â”‚   â””â”€â”€ analytics-service/  :8107   event store, dashboards, audit log
-â”œâ”€â”€ scripts/                     start-local.ps1, stop-local.ps1
-â”œâ”€â”€ Dockerfile                   one image definition, parameterised by service
-â””â”€â”€ docker-compose.yml           production-like local stack
+├── pom.xml                      parent build (versions, module list)
+├── libs/common/                 shared library used by every servlet service
+│   ├── security/                token verification, CurrentUser, roles, internal-key filter
+│   ├── web/                     uniform error responses
+│   ├── events/                  audit/activity event publishing (HTTP locally, SQS in production)
+│   ├── ai/                      model clients (Ollama, Claude), AiService with offline fallback, text heuristics
+│   └── client/                  service-to-service HTTP client that forwards the user's token
+├── services/
+│   ├── gateway/            :8080   routing, CORS, rate limiting (Spring Cloud Gateway)
+│   ├── auth-service/       :8101   users, institutions, login, tokens, roles
+│   ├── document-service/   :8102   upload, storage, text extraction, sharing
+│   ├── analysis-service/   :8103   summary, mind map, deep analysis, exam prep
+│   ├── curriculum-service/ :8104   research, planning, lessons, path changes
+│   ├── assessment-service/ :8105   quizzes and grading
+│   ├── learning-service/   :8106   mastery, path decisions, knowledge graph, recommendations
+│   └── analytics-service/  :8107   event store, dashboards, audit log
+├── scripts/                     start-local.ps1, stop-local.ps1
+├── Dockerfile                   one image definition, parameterised by service
+└── docker-compose.yml           production-like local stack
 ```
 
 ## How the services work together
 
 ```
-client â”€â”€> gateway â”€â”€> service            every request carries the user's access token
-                         â”‚
-assessment â”€â”€> curriculum      reads the module to write a quiz        (user token forwarded)
-assessment â”€â”€> learning        reports the graded quiz                 (/internal, user token + internal key)
-learning   â”€â”€> curriculum      applies advance / remedial / lateral    (/internal, user token + internal key)
-analysis   â”€â”€> document        reads the extracted text                (user token forwarded)
-all        â”€â”€> analytics       audit and activity events               (/internal, internal key)
+client ──> gateway ──> service            every request carries the user's access token
+                         │
+assessment ──> curriculum      reads the module to write a quiz        (user token forwarded)
+assessment ──> learning        reports the graded quiz                 (/internal, user token + internal key)
+learning   ──> curriculum      applies advance / remedial / lateral    (/internal, user token + internal key)
+analysis   ──> document        reads the extracted text                (user token forwarded)
+all        ──> analytics       audit and activity events               (/internal, internal key)
 ```
 
 - **Authentication.** auth-service signs short-lived RS256 access tokens (15 min) and publishes the public key at
@@ -126,13 +126,13 @@ All configuration is environment variables with local defaults; nothing cloud-sp
 |---|---|---|
 | `PORT` | per service | HTTP port |
 | `MONGODB_URI` | `mongodb://localhost:27017/aiguruz_<service>` | Database of the service (Atlas / DocumentDB URI in production) |
-| `SPRING_PROFILES_ACTIVE` | â€“ | `prod` refuses to start with the development internal key |
+| `SPRING_PROFILES_ACTIVE` | – | `prod` refuses to start with the development internal key |
 | `INTERNAL_API_KEY` | development value | Secret for `/internal/**`; must be set in production |
 | `JWKS_URI` | `http://localhost:8101/.well-known/jwks.json` | Where services fetch the token verification key |
 | `AI_PROVIDER` | `ollama` | `ollama`, `openai` (any OpenAI-compatible API, e.g. Groq), `claude` or `mock` |
-| `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL` | Groq URL, â€“, `llama-3.3-70b-versatile` | OpenAI-compatible provider |
+| `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL` | Groq URL, –, `llama-3.3-70b-versatile` | OpenAI-compatible provider |
 | `OLLAMA_BASE_URL`, `OLLAMA_MODEL`, `OLLAMA_CONTEXT_TOKENS` | `http://localhost:11434`, `llama3.2:3b`, `8192` | Local model |
-| `ANTHROPIC_API_KEY`, `CLAUDE_MODEL` | â€“, `claude-opus-5-5` | Claude API |
+| `ANTHROPIC_API_KEY`, `CLAUDE_MODEL` | –, `claude-opus-5-5` | Claude API |
 | `EVENTS_MODE`, `EVENTS_QUEUE_URL` | `http` | `sqs` sends events through an SQS queue |
 | `STORAGE_MODE`, `STORAGE_LOCAL_DIR`, `STORAGE_S3_BUCKET` | `local`, `./.local/storage` | `s3` stores uploads in S3 |
 | `EXTRACTION_MODE` | `inline` | `lambda` leaves extraction to the Python Lambda |
@@ -140,7 +140,7 @@ All configuration is environment variables with local defaults; nothing cloud-sp
 | `ADVANCE_THRESHOLD`, `REMEDIAL_THRESHOLD` | `0.8`, `0.5` | Path decision thresholds |
 | `ACCESS_TOKEN_MINUTES`, `REFRESH_TOKEN_DAYS` | `15`, `14` | Token lifetimes |
 | `COOKIE_SECURE` | `false` | `true` behind HTTPS |
-| `JWT_PRIVATE_KEY` | â€“ | Base64 PKCS#8 RSA key; empty = generated once and kept in MongoDB |
+| `JWT_PRIVATE_KEY` | – | Base64 PKCS#8 RSA key; empty = generated once and kept in MongoDB |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:3000,http://localhost:8081` | Browser origins the gateway accepts |
 | `RATE_LIMIT_PER_MINUTE`, `AUTH_RATE_LIMIT_PER_MINUTE` | `300`, `30` | Gateway limits per client address |
 | `TRUST_PROXY` | `false` | `true` when a reverse proxy is the only way in (rate limits then use `X-Forwarded-For`) |
@@ -153,26 +153,26 @@ All paths are served through the gateway. Errors have the shape `{"code": "...",
 | Method and path | Who | Purpose |
 |---|---|---|
 | `POST /api/auth/register` | public | Create an account: personal workspace, new institution, or join with a code |
-| `POST /api/auth/login` Â· `refresh` Â· `logout` | public | Session management |
-| `GET /api/auth/me` Â· `POST /api/auth/password` | signed in | Profile, change password |
+| `POST /api/auth/login` · `refresh` · `logout` | public | Session management |
+| `GET /api/auth/me` · `POST /api/auth/password` | signed in | Profile, change password |
 | `GET /api/tenants/me` | signed in | Institution (join code visible to teachers and admins) |
 | `POST /api/tenants/me/join-code` | admin | New join code |
-| `GET/POST /api/users` Â· `PATCH /api/users/{id}` | admin | List, create, change role, activate/deactivate |
+| `GET/POST /api/users` · `PATCH /api/users/{id}` | admin | List, create, change role, activate/deactivate |
 | `POST /api/documents` (multipart `file`) | signed in | Upload (PDF, DOCX, PPTX, TXT, MD, RTF, HTML, EPUB; 25 MB) |
 | `GET /api/documents?scope=mine\|shared\|all` | `all`: librarian, admin | List |
-| `GET /api/documents/{id}` Â· `/text` Â· `/download` | readers | Metadata, extracted text, original file |
+| `GET /api/documents/{id}` · `/text` · `/download` | readers | Metadata, extracted text, original file |
 | `PATCH /api/documents/{id}` | owner; sharing needs teacher, librarian or admin | Rename, share, unshare |
 | `DELETE /api/documents/{id}` | owner, librarian, admin | Delete |
 | `POST /api/analyses` `{documentId, type, regenerate}` | signed in | Start `SUMMARY`, `MIND_MAP`, `DEEP_ANALYSIS` or `EXAM_PREP` |
-| `GET /api/analyses?documentId=` Â· `GET /api/analyses/{id}` | owner | Results (poll while `PENDING`) |
+| `GET /api/analyses?documentId=` · `GET /api/analyses/{id}` | owner | Results (poll while `PENDING`) |
 | `POST /api/curricula` `{topic, goal, level}` | signed in | Start a learning path |
 | `GET /api/curricula?scope=tenant` | `tenant`: teacher, admin | List |
-| `GET /api/curricula/{id}` Â· `DELETE` | owner (teachers and admins may read) | Path and modules |
+| `GET /api/curricula/{id}` · `DELETE` | owner (teachers and admins may read) | Path and modules |
 | `GET /api/curricula/{id}/modules/{moduleId}` | owner | Lesson (written on first open) |
 | `POST /api/assessments` `{curriculumId, moduleId}` | owner | Get or create the quiz for a module |
 | `POST /api/assessments/{id}/submit` | owner | Grade, update mastery, adapt the path |
 | `GET /api/learning/knowledge-graph?curriculumId=` | owner | Modules, concepts and mastery |
-| `GET /api/learning/progress` Â· `recommendations` | signed in | Progress per path, next steps |
+| `GET /api/learning/progress` · `recommendations` | signed in | Progress per path, next steps |
 | `GET /api/analytics/dashboard?scope=me\|tenant&days=` | `tenant`: teacher, admin | Metrics |
 | `GET /api/audit-logs?page=&size=&type=` | admin | Audit log |
 
