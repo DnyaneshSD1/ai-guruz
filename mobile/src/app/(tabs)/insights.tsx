@@ -2,7 +2,8 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { Badge, Bar, Button, Card, ErrorNote, Loading, Screen, Segmented, T, percent, useLoad } from '@/components/ui';
+import { Columns, Donut, Rows, TrendLine } from '@/components/charts';
+import { Badge, Button, Card, ErrorNote, Loading, Screen, Segmented, T, percent, useLoad } from '@/components/ui';
 import { api } from '@/lib/api';
 import { useAuth, useTheme } from '@/lib/providers';
 import type { Dashboard, Timing } from '@/lib/types';
@@ -58,7 +59,6 @@ export default function Insights() {
   const [scope, setScope] = useState<'me' | 'tenant'>('me');
   const [days, setDays] = useState<'7' | '30' | '90'>('30');
   const { data, error, loading, reload } = useLoad(() => api<Dashboard>(`/api/analytics/dashboard?scope=${scope}&days=${days}`), [scope, days]);
-  const decisionTotal = data ? data.decisions.ADVANCE + data.decisions.LATERAL + data.decisions.REMEDIAL : 0;
 
   return (
     <Screen onRefresh={reload}>
@@ -88,16 +88,46 @@ export default function Insights() {
             <ActivityChart data={data.activity} />
           </Card>
           <Card style={{ gap: 12 }}>
+            <T variant="label" muted>What the activity was</T>
+            <Donut
+              unit="actions"
+              slices={[
+                { label: 'Documents uploaded', value: data.totals.documents },
+                { label: 'Analyses run', value: data.totals.analyses },
+                { label: 'Learning paths', value: data.totals.curricula },
+                { label: 'Quizzes taken', value: data.totals.assessments },
+              ]}
+            />
+          </Card>
+          <Card style={{ gap: 12 }}>
             <T variant="label" muted>Path decisions · divergence {percent(data.pathDivergence)}</T>
-            {([['ADVANCE', 'Advance', 'success'], ['LATERAL', 'Practice detour', 'warn'], ['REMEDIAL', 'Reinforcement', 'danger']] as const).map(([key, label, tone]) => (
-              <View key={key} style={{ gap: 4 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <T>{label}</T>
-                  <T muted>{data.decisions[key]}</T>
-                </View>
-                <Bar value={decisionTotal ? data.decisions[key] / decisionTotal : 0} tone={tone} />
-              </View>
-            ))}
+            <Donut
+              unit="decisions"
+              slices={[
+                { label: 'Advance', value: data.decisions.ADVANCE },
+                { label: 'Practice detour', value: data.decisions.LATERAL },
+                { label: 'Reinforcement', value: data.decisions.REMEDIAL },
+              ]}
+            />
+          </Card>
+          <Card style={{ gap: 12 }}>
+            <T variant="label" muted>Quiz score over time</T>
+            <TrendLine label="Average quiz score" points={(data.scoreTrend ?? []).map((day) => ({ date: day.date, value: day.averageScore }))} />
+          </Card>
+          <Card style={{ gap: 12 }}>
+            <T variant="label" muted>Quiz score distribution</T>
+            <Columns bars={(data.scoreDistribution ?? []).map((band) => ({ label: band.label, value: band.count }))} />
+          </Card>
+          <Card style={{ gap: 12 }}>
+            <T variant="label" muted>Analyses by type</T>
+            <Rows
+              bars={[
+                { label: 'Summary', value: data.analysesByType?.SUMMARY ?? 0 },
+                { label: 'Mind map', value: data.analysesByType?.MIND_MAP ?? 0 },
+                { label: 'Deep analysis', value: data.analysesByType?.DEEP_ANALYSIS ?? 0 },
+                { label: 'Exam prep', value: data.analysesByType?.EXAM_PREP ?? 0 },
+              ]}
+            />
           </Card>
           <Card style={{ gap: 12 }}>
             <T variant="label" muted>AI performance</T>

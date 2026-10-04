@@ -86,7 +86,7 @@ script does, or use Docker Compose below.
 Each service is an ordinary Spring Boot application with working local defaults:
 
 ```powershell
-mvn -q install -DskipTests -pl libs/common                 # once, and after changing the shared library
+mvn -q install -DskipTests -pl libs/common -am             # once, and after changing the shared library
 mvn spring-boot:run -pl services/curriculum-service
 ```
 

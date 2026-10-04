@@ -13,6 +13,11 @@
   --success: #15803d;
   --warn: #b45309;
   --danger: #b91c1c;
+  /* Chart series colours: a fixed order, validated for colour-blind separation on this surface. */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
   color-scheme: light;
 }
 
@@ -28,6 +33,10 @@
   --success: #4ade80;
   --warn: #fbbf24;
   --danger: #f87171;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
   color-scheme: dark;
 }
 

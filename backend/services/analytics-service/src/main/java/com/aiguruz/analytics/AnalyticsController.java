@@ -41,10 +41,14 @@ public class AnalyticsController {
 
     public record Timing(Double averageMs, long targetMs, Double withinTargetShare, long samples) {}
 
+    /** Quiz scores grouped into five equal bands: 0-20%, 20-40%, ... 80-100%. */
+    public record ScoreBand(String label, long count) {}
+
     public record Dashboard(String scope, int days, Map<String, Long> totals, Double averageScore,
                             Map<String, Long> decisions, Double pathDivergence, Double averageConfidence,
                             Timing analysisTiming, Timing curriculumTiming, List<DayCount> activity,
-                            List<DayScore> scoreTrend, List<Learner> learners, boolean truncated) {}
+                            List<DayScore> scoreTrend, List<ScoreBand> scoreDistribution,
+                            Map<String, Long> analysesByType, List<Learner> learners, boolean truncated) {}
 
     public record AuditPage(List<Event> items, int page, int size, long total) {}
 
@@ -119,6 +123,14 @@ public class AnalyticsController {
         Map<String, List<Double>> scoresPerDay = new TreeMap<>();
         assessments.forEach(e -> scoresPerDay.computeIfAbsent(day(e), k -> new ArrayList<>()).add(number(e, "score")));
 
+        List<ScoreBand> distribution = scoreBands(assessments.stream().map(e -> number(e, "score")).toList());
+
+        Map<String, Long> analysesByType = new LinkedHashMap<>();
+        for (String type : List.of("SUMMARY", "MIND_MAP", "DEEP_ANALYSIS", "EXAM_PREP")) {
+            analysesByType.put(type, of(all, "ANALYSIS_COMPLETED").stream()
+                    .filter(e -> type.equals(e.metadata.get("type"))).count());
+        }
+
         List<Learner> learners = new ArrayList<>();
         if (tenantWide) {
             Map<String, List<Event>> byUser = new LinkedHashMap<>();
@@ -140,7 +152,7 @@ public class AnalyticsController {
                 timing(of(all, "CURRICULUM_CREATED"), CURRICULUM_TARGET_MS),
                 perDay.entrySet().stream().map(e -> new DayCount(e.getKey(), e.getValue())).toList(),
                 scoresPerDay.entrySet().stream().map(e -> new DayScore(e.getKey(), average(e.getValue()))).toList(),
-                learners, page.getTotalElements() > all.size());
+                distribution, analysesByType, learners, page.getTotalElements() > all.size());
     }
 
     @GetMapping("/api/audit-logs")
@@ -153,6 +165,17 @@ public class AnalyticsController {
                 ? events.findByTenantIdAndCategoryOrderByTimestampDesc(user.tenantId(), LearnEvent.AUDIT, request)
                 : events.findByTenantIdAndCategoryAndTypeOrderByTimestampDesc(user.tenantId(), LearnEvent.AUDIT, type, request);
         return new AuditPage(found.getContent(), request.getPageNumber(), request.getPageSize(), found.getTotalElements());
+    }
+
+    /** Five equal bands; a perfect score belongs to the top band rather than a sixth one. */
+    static List<ScoreBand> scoreBands(List<Double> scores) {
+        long[] counts = new long[5];
+        scores.forEach(score -> counts[Math.max(0, Math.min(4, (int) (score * 5)))]++);
+        List<ScoreBand> bands = new ArrayList<>();
+        for (int i = 0; i < counts.length; i++) {
+            bands.add(new ScoreBand(i * 20 + "-" + (i + 1) * 20 + "%", counts[i]));
+        }
+        return bands;
     }
 
     private static Timing timing(List<Event> samples, long targetMs) {

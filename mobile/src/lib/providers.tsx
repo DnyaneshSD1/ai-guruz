@@ -11,10 +11,13 @@ export const palettes = {
   light: {
     bg: '#ffffff', fg: '#0a0a0a', muted: '#6b6b6b', border: '#e6e6e6', card: '#fafafa', hover: '#f2f2f2',
     primary: '#0a0a0a', primaryFg: '#ffffff', success: '#15803d', warn: '#b45309', danger: '#b91c1c',
+    // Chart series colours, in a fixed order validated for colour-blind separation (same as the web app).
+    series: ['#2a78d6', '#eb6834', '#1baf7a', '#eda100'],
   },
   dark: {
     bg: '#000000', fg: '#f5f5f5', muted: '#9a9a9a', border: '#242424', card: '#0c0c0c', hover: '#161616',
     primary: '#ffffff', primaryFg: '#000000', success: '#4ade80', warn: '#fbbf24', danger: '#f87171',
+    series: ['#3987e5', '#d95926', '#199e70', '#c98500'],
   },
 };
 
